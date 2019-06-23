@@ -12,3 +12,25 @@ pip install jupyter
 jupyter nbconvert --to markdown realtime_jui_investigation.ipynb
 
 ```
+
+# Download influx binary
+
+https://portal.influxdata.com/downloads
+
+```
+docker pull influxdb:1.7.6
+# docker run -it influxdb:1.7.6 /bin/bash
+
+docker run -p 8086:8086 \
+      -v influxdb:/var/lib/influxdb \
+      influxdb:1.7.6
+      
+sudo docker exec -i -t ${CONTAINER_ID} /bin/bash
+```
+
+Run `influx`
+
+```
+CREATE DATABASE mydb
+USE mydb
+```
