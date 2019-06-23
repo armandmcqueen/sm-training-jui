@@ -1,6 +1,8 @@
 # sm-training-jui
 Jupyter UI for SageMaker Training focused on watching logs, infrastructure metrics, and science metrics in real-time
 
+https://www.influxdata.com/blog/tips-for-running-the-tick-stack-using-docker/
+
 ## Converting from Notebook to Markdown
 
 https://github.com/jupyter/nbconvert
@@ -45,3 +47,4 @@ docker pull telegraf:${LATEST}
 
 docker run --rm telegraf:${LATEST} telegraf config > telegraf.conf
 ```
+
