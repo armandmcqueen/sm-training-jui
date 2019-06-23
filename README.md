@@ -34,3 +34,14 @@ Run `influx`
 CREATE DATABASE mydb
 USE mydb
 ```
+
+# Telegraf
+
+https://docs.influxdata.com/telegraf/v1.11/introduction/installation/
+
+```
+LATEST=1.11.0
+docker pull telegraf:${LATEST}
+
+docker run --rm telegraf:${LATEST} telegraf config > telegraf.conf
+```
