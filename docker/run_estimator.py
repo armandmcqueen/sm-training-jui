@@ -19,6 +19,8 @@ INSTANCE_TYPE = "ml.p3.16xlarge"
 SUBNET = "subnet-21ac2f2e"
 SG_IDS = ["sg-0043f63c9ad9ffc1d", "sg-0d931ecdaccd26af3"]
 
+INFLUX_PRIVATE_IP = "172.31.41.46"
+
 
 if __name__ == '__main__':
 
@@ -42,7 +44,7 @@ if __name__ == '__main__':
                           security_group_ids=SG_IDS,
                           input_mode='File',
                           hyperparameters={'tig': True,
-                                           "influx_private_ip": "",
+                                           "influx_private_ip": INFLUX_PRIVATE_IP,
                                            "tig_agent_interval": "10ms",
                                            "tig_flush_interval": "1s"})
 

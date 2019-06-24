@@ -5,7 +5,7 @@ from invoke import task
 
 
 @task
-def drun(c, name="sm_training_example:latest", vols="docker_logs:/logs", nvidia_docker=False, cmd="/bin/bash", cmd_args=""):
+def drun(c, name="sm_hvd_training_example:latest", vols="docker_logs:/logs", nvidia_docker=False, cmd="/bin/bash", cmd_args=""):
     """
     vols is a comma-separated list of HOST_DIR:CONTAINER_DIR pairs, e.g. ~/data:/data,~/logs:/logs
     """

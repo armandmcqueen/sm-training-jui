@@ -20,6 +20,9 @@ def pretraining_hook_allnodes():
         --input_filters cpu:mem:diskio:disk:net \\
         --hostname {current_host()}'''
 
+        print(create_telegraf_config_cmd)
+        subprocess.check_call("cat telegraf.conf", shell=True)
+
         subprocess.check_call(create_telegraf_config_cmd, shell=True)
         subprocess.check_call("telegraf --config telegraf.conf &", shell=True)
 
@@ -30,7 +33,8 @@ def master_training_code():
     print(subprocess.check_output("cat /hostfile", shell=True))
 
 
-    num_batches = int(2000/num_hosts())
+    # num_batches = int(2000/num_hosts())
+    num_batches = 100_000
     mpirun_cmd = f'''\\
     mpirun -np {num_total_processes()} \\
         --output-filename /hlog \\

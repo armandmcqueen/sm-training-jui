@@ -75,10 +75,10 @@ RUN chmod +x /usr/local/bin/train
 # Installs for monitoring
 ##########################################################################################
 
-RUN git clone https://github.com/armandmcqueen/horovod-utils hutils
+RUN git clone https://github.com/armandmcqueen/horovod-utils /hutils
 
 RUN wget https://dl.influxdata.com/telegraf/releases/telegraf_1.11.0-1_amd64.deb && \
-    sudo dpkg -i telegraf_1.11.0-1_amd64.deb
+    dpkg -i telegraf_1.11.0-1_amd64.deb
 
 #COPY influx_runner.py /influx_runner.py
 #
