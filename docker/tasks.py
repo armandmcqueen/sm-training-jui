@@ -20,7 +20,16 @@ def drun(c, name="sm_training_example:latest", vols="docker_logs:/logs", nvidia_
     c.run(full_cmd, pty=True)
 
 @task
-def dbuild(c, name="sm_training_example:latest"):
+def dbuild(c, name="sm_hvd_training_example:latest"):
     # c.run(f'docker build -t {name}:latest ../.. --build-arg CACHEBUST=$(date +%s) \
     # --build-arg BRANCH_NAME=${BRANCH_NAME}')
     c.run(f'docker build -t {name} .')
+
+@task
+def decr(c, name="sm_hvd_training_example:latest", region="us-east-1", aws_account="578276202366", build=False):
+    if build:
+        dbuild(c, name=name)
+    c.run(f'$(aws ecr get-login --no-include-email --region {region})')
+    c.run(f'docker tag {name} {aws_account}.dkr.ecr.{region}.amazonaws.com/{name}')
+    c.run(f'docker push {aws_account}.dkr.ecr.{region}.amazonaws.com/{name}')
+

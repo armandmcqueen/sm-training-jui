@@ -1,3 +1,6 @@
 .idea/
 .ipynb_checkpoints/
 
+venv/
+docker_experiments/sagemaker-containers/venv/
+
