@@ -9,22 +9,31 @@ def pretraining_hook_allnodes():
 
     hps = hyperparams()
 
-    if hps["tig"] == True:
+    print("checking if we should use tig")
+    if hps["tig"] == 'True':
+        print("decided to use use tig")
         create_telegraf_config_cmd = f'''\
         python /hutils/tig/telegraf_config.py \\
         --agent_interval {hps["tig_agent_interval"]} \\
         --agent_flush_interval {hps["tig_flush_interval"]} \\
         --influx_url http://{hps["influx_private_ip"]}:8086 \\
         --influx_db telegraf-sm \\
-        --tags user=armand,cluster=vgg-sagemaker-{num_hosts()}node \\
+        --tags user=armand,cluster=hackathon-vgg-sagemaker-{num_hosts()}node \\
         --input_filters cpu:mem:diskio:disk:net \\
         --hostname {current_host()}'''
 
         print(create_telegraf_config_cmd)
+        subprocess.check_call(create_telegraf_config_cmd, shell=True)
+        subprocess.check_call("ls /", shell=True)
+        subprocess.check_call("ls /hutils/", shell=True)
+        subprocess.check_call("ls /hutils/tig/", shell=True)
         subprocess.check_call("cat telegraf.conf", shell=True)
 
-        subprocess.check_call(create_telegraf_config_cmd, shell=True)
-        subprocess.check_call("telegraf --config telegraf.conf &", shell=True)
+
+        subprocess.check_call("telegraf --config /telegraf.conf &", shell=True)
+    else:
+        print("chose not to use tig")
+        print(hps)
 
 
 
