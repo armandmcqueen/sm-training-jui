@@ -1,6 +1,8 @@
 from influxdb import InfluxDBClient
 
+#interval: how much time from now to query the data
 interval = "1s"
+#group: only works when there is an aggregation function, indicating how much time to aggregate data
 group = "1s"
 client = InfluxDBClient(host='127.0.0.1', database="telegraf-sm")
 # From disk
