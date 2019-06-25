@@ -2,10 +2,11 @@
 mpirun.real \
 --allow-run-as-root \
 --display-map \
---tag-output \
 --hostfile /hostfile \
 -bind-to none -map-by slot \
 -x LD_PRELOAD=/libchangehostname.so \
 -x LD_LIBRARY_PATH \
 -x PATH \
 "$@"
+
+# --tag-output \
