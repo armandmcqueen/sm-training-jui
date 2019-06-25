@@ -196,3 +196,13 @@ def network_util_graph():
 # network_graph
 
 # cb.stop()
+
+
+
+## Pretty wrappers
+
+def graph(graph_type):
+    assert graph_type == 'network'
+
+    gpu_graph, callback = gpu_util()
+    return gpu_graph, callback
