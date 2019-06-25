@@ -202,6 +202,17 @@ def network_util_graph():
 
 ## Pretty wrappers
 
+class UXWrapper:
+    def __init__(self, graph, stopper):
+        self.graph = graph
+        self.stopper = stopper
+
+    def display(self):
+        return self.graph
+
+    def stop(self):
+        self.stopper.stop()
+
 def init(*args):
     return
 
@@ -210,11 +221,11 @@ def graph(graph_type):
 
     if graph_type == 'network-line':
         network_graph, cb = network_util_graph()
-        return network_graph, cb
+        return UXWrapper(network_graph, cb)
 
     if graph_type == 'gpu-heatmap':
         gpu_graph, callback = gpu_util()
-        return gpu_graph, callback
+        return UXWrapper(gpu_graph, callback)
 
 
 
