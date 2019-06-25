@@ -5,6 +5,7 @@ import numpy as np
 import holoviews as hv
 from holoviews import opts
 import pandas as pd
+from sagemaker_logs import *
 
 hv.extension('bokeh')
 
@@ -202,7 +203,7 @@ def network_util_graph():
 ## Pretty wrappers
 
 def init(*args):
-    pass
+    return
 
 def graph(graph_type):
     assert graph_type in ['network-line', 'gpu-heatmap']
@@ -214,6 +215,10 @@ def graph(graph_type):
     if graph_type == 'gpu-heatmap':
         gpu_graph, callback = gpu_util()
         return gpu_graph, callback
+
+
+
+
 
 
 
