@@ -251,7 +251,7 @@ def cpu_boxplot():
 
     cb_attacher = PeriodicCallback(cb, 100)
     cb_attacher.start()
-    return mem_dmap, cb
+    return mem_dmap, cb_attacher
 
 
 ## Pretty wrappers
