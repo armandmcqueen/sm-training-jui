@@ -25,7 +25,7 @@ def hyperparams():
 
 
 def slots_per_instance():
-    slots = 8
+    slots = 7
     return slots
 
 

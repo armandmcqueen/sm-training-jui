@@ -19,7 +19,7 @@ def pretraining_hook_allnodes():
         --influx_url http://{hps["influx_private_ip"]}:8086 \\
         --influx_db telegraf-sm \\
         --tags user=armand,cluster=hackathon-vgg-sagemaker-{num_hosts()}node \\
-        --input_filters cpu:mem:diskio:disk:net \\
+        --input_filters cpu:mem:diskio:disk:net:nvidia_smi  \\
         --hostname {current_host()}'''
 
         print(create_telegraf_config_cmd)
@@ -54,6 +54,7 @@ def master_training_code():
             --variable_update horovod \\
             --horovod_device gpu \\
             --use_fp16'''
+
 
 
 
