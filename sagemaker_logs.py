@@ -68,7 +68,7 @@ def tail_sm_logs(sm_job_name, hostname, logline_handler, region="us-east-1"):
         next_forward_token = response["nextForwardToken"]
         time.sleep(0.5)    
 
-def tail_log_task(sm_job_name="armand-vgg-example-2019-06-25-19-53-40-033", hostname="algo-1", region='us-east-1'):
+def tail(sm_job_name="armand-vgg-example-2019-06-25-19-53-40-033", hostname="algo-1", region='us-east-1'):
     from IPython.display import display
     out, wlogger = get_wlogger()
     display(out)
