@@ -200,6 +200,60 @@ def network_util_graph():
 
 
 
+
+
+
+
+def get_cpu_boxplot_data():
+    client = InfluxDBClient(host=influx_db_private_ip, database="telegraf-sm")
+    mean_cpu_in_use = client.query(
+        "SELECT 100 - mean(\"usage_idle\") as \"in_use\" FROM \"cpu\" WHERE \"user\" =~ /armand/ AND time > now()-{} GROUP BY time({}), \"cpu\", \"host\" fill(null);".format(
+            '5s', '1s'))
+    data = {}
+    for host in ['algo-1', 'algo-2']:
+        data[host] = []
+        for i in range(64):
+            data[host].append(list(mean_cpu_in_use.get_points(measurement='cpu',
+                                                              tags={"host": host, "cpu": f'cpu{i}'})))
+    algo1, algo2 = [], []
+    # print(data)
+    for i in range(len(data['algo-1'][0])):
+        tmp1, tmp2 = [], []
+        for j in range(64):
+            tmp1.append(data['algo-1'][j][i]['in_use'])
+            tmp2.append(data['algo-2'][j][i]['in_use'])
+        algo1.append(tmp1)
+        algo2.append(tmp2)
+
+    algo = pd.DataFrame({'algo-1': algo1[0], "algo-2": algo2[0]})
+    # algo2 = pd.DataFrame({'cpu usage algo2': algo2})
+    return algo
+
+
+def cpu_boxplot():
+    renderer = hv.renderer('bokeh')
+
+    def datafunc_down(data):
+        algo1_data = data['algo-1']
+        algo2_data = data['algo-2']
+
+        return hv.BoxWhisker(algo1_data, vdims='algo-1') + hv.BoxWhisker(algo2_data, vdims='algo-2')
+
+    # def datafunc_up(data):
+    #    return hv.BoxWhisker(data, vdims='cpu usage algo2')
+    def cb():
+        down_stream.send(get_cpu_boxplot_data())
+
+    down_stream = hv.streams.Buffer(get_cpu_boxplot_data(), length=100, index=False)
+    mem_dmap = hv.DynamicMap(datafunc_down, streams=[down_stream])
+
+    # Render plot and attach periodic callback
+
+    cb_attacher = PeriodicCallback(cb, 100)
+    cb_attacher.start()
+    return mem_dmap, cb
+
+
 ## Pretty wrappers
 
 class UXWrapper:
@@ -217,7 +271,7 @@ def init(*args):
     return
 
 def graph(graph_type):
-    assert graph_type in ['network-line', 'gpu-heatmap']
+    assert graph_type in ['network-line', 'gpu-heatmap', 'cpu-box']
 
     if graph_type == 'network-line':
         network_graph, cb = network_util_graph()
@@ -226,6 +280,10 @@ def graph(graph_type):
     if graph_type == 'gpu-heatmap':
         gpu_graph, callback = gpu_util()
         return UXWrapper(gpu_graph, callback)
+
+    if graph_type == 'cpu-box':
+        cpu_graph, callback = cpu_boxplot()
+        return UXWrapper(cpu_graph, callback)
 
 
 
