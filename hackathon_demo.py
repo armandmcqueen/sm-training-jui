@@ -201,8 +201,19 @@ def network_util_graph():
 
 ## Pretty wrappers
 
-def graph(graph_type):
-    assert graph_type == 'network'
+def init(*args):
+    pass
 
-    gpu_graph, callback = gpu_util()
-    return gpu_graph, callback
+def graph(graph_type):
+    assert graph_type in ['network-line', 'gpu-heatmap']
+
+    if graph_type == 'network-line':
+        network_graph, cb = network_util_graph()
+        return network_graph, cb
+
+    if graph_type == 'gpu-heatmap':
+        gpu_graph, callback = gpu_util()
+        return gpu_graph, callback
+
+
+
